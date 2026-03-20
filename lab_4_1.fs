@@ -32,7 +32,8 @@ let rec printTree indent isLast node =
         | Node(data, left, right) ->
             let marker = if isLast then "└── " else "├── "
             printfn "%s%s%A" indent marker data
-            let newIndent = indent + (if isLast then "    " else "│   ")
+            let secMarker = if isLast then "    " else "│   "
+            let newIndent = indent + secMarker
             match left, right with
             | NULL, NULL -> ()
             | l, NULL -> printTree newIndent true l
@@ -41,8 +42,8 @@ let rec printTree indent isLast node =
                 printTree newIndent false r
                 printTree newIndent true l
 
-let rec mapTree f Tree = 
-    match Tree with
+let rec mapTree f curTree = 
+    match curTree with
     | NULL -> NULL
     | Node (data, left, right) ->
         let newData = f data
